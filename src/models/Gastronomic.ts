@@ -23,12 +23,20 @@ export class Gastronomic {
   @Column({ name: "localidad_id" })
   locationId!: number;
 
-  @ManyToMany(type => Activity)
-  @JoinTable({name: "actividad_gastronomico"})
+  @ManyToMany(type => Activity, activity => activity.gastronomics)
+  @JoinTable({
+    name: "actividad_gastronomico", 
+    joinColumn: { name: "gastronomico_id", referencedColumnName: "id"},
+    inverseJoinColumn: { name: "actividad_id", referencedColumnName: "id"}
+  })
   activities!: Activity[];
   
   @ManyToMany(type => Speciality)
-  @JoinTable({name: "especialidad_gastronomico"})
+  @JoinTable({
+    name: "especialidad_gastronomico",
+    joinColumn: { name: "gastronomico_id" },
+    inverseJoinColumn: { name: "especialidad_id" }
+  })
   specialities!: Speciality[];
 
 }

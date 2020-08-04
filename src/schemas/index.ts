@@ -1,8 +1,8 @@
 import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLList } from 'graphql';
 import { getConnection } from 'typeorm';
-import { Activity, Lodging, Category, Classification, Location, Speciality } from '../models';
+import { Activity, Category,  Classification, Location, Gastronomic, Lodging, Speciality } from '../models';
 import { ActivityType, CategoryType,  ClassificationType, LocationType, GastronomicType, LodgingType, SpecialityType} from './types';
-import { resolve } from 'path';
+
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType', 
@@ -55,7 +55,8 @@ const RootQuery = new GraphQLObjectType({
     gastronomics: {
       type: new GraphQLList(GastronomicType),
       resolve(parent, args) {
-
+        const gastronomicsRepository = getConnection().getRepository(Gastronomic);
+        return gastronomicsRepository.find({relations: ["activities", "specialities"]});
       }
     }, 
     gastronomic: {

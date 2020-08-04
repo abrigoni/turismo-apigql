@@ -1,7 +1,11 @@
-import { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLFloat } from "graphql";
+import { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLFloat, GraphQLList } from "graphql";
+import { getConnection } from "typeorm";
+import { Gastronomic, Location } from "../../models";
 import LocationType from "./LocationType";
+import ActivityType from "./ActivityType";
+import SpecialityType from "./SpecialityType";
 
-const GastronomicType = new GraphQLObjectType({
+const GastronomicType = new GraphQLObjectType<Gastronomic, any>({
   name: 'Gastronomic',
   fields: () => ({
     id: { type: GraphQLInt },
@@ -10,9 +14,22 @@ const GastronomicType = new GraphQLObjectType({
     lat: { type: GraphQLFloat },
     lng: { type: GraphQLFloat },
     location: { 
-      type: LocationType, 
+      type: LocationType,
+      resolve(parent,) {
+        const locationRepository = getConnection().getRepository(Location);
+        return locationRepository.findOne(parent.locationId);
+      }
+    },
+    activities: {
+      type: new GraphQLList(ActivityType),
       resolve(parent, args) {
-        return null;
+        return parent.activities;
+      }
+    },
+    specialities: {
+      type: new GraphQLList(SpecialityType),
+      resolve(parent, args) {
+        return parent.specialities;
       }
     }
   })
