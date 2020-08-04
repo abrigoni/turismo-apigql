@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLList } from 'graphql';
 import { getConnection } from 'typeorm';
-import { Activity, Lodging } from '../models';
+import { Activity, Lodging, Category, Classification, Location, Speciality } from '../models';
 import { ActivityType, CategoryType,  ClassificationType, LocationType, GastronomicType, LodgingType, SpecialityType} from './types';
 import { resolve } from 'path';
 
@@ -25,26 +25,31 @@ const RootQuery = new GraphQLObjectType({
     categories: {
       type: new GraphQLList(CategoryType),
       resolve(parent, args) {
-
+        const categoriesRepository = getConnection().getRepository(Category);
+        return categoriesRepository.find();
       }
     },
     category: {
       type: CategoryType,
+      args: { id: { type: GraphQLID }}, 
       resolve(parent, args) {
-        
+        const categoriesRepository = getConnection().getRepository(Category);
+        return categoriesRepository.findOne(args.id);
       }
     },
     classifications: {
       type: new GraphQLList(ClassificationType),
       resolve(parent, args) {
-
+        const classificationsRepository = getConnection().getRepository(Classification);
+        return classificationsRepository.find();
       }
     },
     classification: {
       type: ClassificationType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        
+        const classificationsRepository = getConnection().getRepository(Classification);
+        return classificationsRepository.findOne(args.id);
       }
     },
     gastronomics: {
@@ -63,14 +68,16 @@ const RootQuery = new GraphQLObjectType({
     locations: {
       type: new GraphQLList(LocationType),
       resolve(parent, args) {
-
+        const locationsRepository = getConnection().getRepository(Location);
+        return locationsRepository.find();
       }
     },
     location: {
       type: LocationType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        
+        const locationsRepository = getConnection().getRepository(Location);
+        return locationsRepository.findOne(args.id);
       }
     },
     lodgings: {
@@ -91,14 +98,16 @@ const RootQuery = new GraphQLObjectType({
     specialities: {
       type: new GraphQLList(SpecialityType),
       resolve(parent, args) {
-
+        const specialitiesRepository = getConnection().getRepository(Speciality);
+        return specialitiesRepository.find();
       }
     },
     speciality: {
       type: SpecialityType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        
+        const specialitiesRepository = getConnection().getRepository(Speciality);
+        return specialitiesRepository.findOne(args.id);
       }
     }
   }
