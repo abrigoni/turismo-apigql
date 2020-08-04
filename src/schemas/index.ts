@@ -63,7 +63,8 @@ const RootQuery = new GraphQLObjectType({
       type: GastronomicType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        
+        const gastronomicsRepository = getConnection().getRepository(Gastronomic);
+        return gastronomicsRepository.findOne(args.id,{relations: ["activities", "specialities"]})
       }
     },
     locations: {
