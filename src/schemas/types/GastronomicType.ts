@@ -16,8 +16,7 @@ const GastronomicType = new GraphQLObjectType<Gastronomic, any>({
     location: { 
       type: LocationType,
       resolve(parent,) {
-        const locationRepository = getConnection().getRepository(Location);
-        return locationRepository.findOne(parent.locationId);
+        return parent.location;
       }
     },
     activities: {

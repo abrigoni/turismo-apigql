@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Classification, Category, Location } from ".";
 
 @Entity({ name: "alojamientos" })
 export class Lodging {
@@ -21,13 +22,15 @@ export class Lodging {
   @Column({ name: "foto" })
   picture!: string;
 
-  @Column({name: "localidad_id"})
-  locationId!: number;
-
-  @Column({ name: "clasificacion_id" })
-  classificationId!: number;
-
-  @Column({ name: "categoria_id" })
-  categoryId!: number;
-
+  @ManyToOne(type => Category, categoria => categoria.id)
+  @JoinColumn({name: "categoria_id"})
+  category!: Category;
+  
+  @ManyToOne(type => Classification, classification => classification.id)
+  @JoinColumn({name: "clasificacion_id"})
+  classification!: Classification;
+  
+  @ManyToOne(type => Location, location => location.id)
+  @JoinColumn({name: "localidad_id"})
+  location!: Location;
 }

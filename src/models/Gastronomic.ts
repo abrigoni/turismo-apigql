@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, ManyToOne } from "typeorm";
 import { Speciality } from "./Speciality";
 import { Activity } from "./Activity";
+import { Location } from ".";
 
 @Entity({ name: "gastronomicos" })
 export class Gastronomic {
@@ -20,8 +21,9 @@ export class Gastronomic {
   @Column()
   lng!: number;
 
-  @Column({ name: "localidad_id" })
-  locationId!: number;
+  @ManyToOne(type => Location, location => location.id)
+  @JoinColumn({ name: "localidad_id" })
+  location!: Location;
 
   @ManyToMany(type => Activity, activity => activity.gastronomics)
   @JoinTable({

@@ -14,29 +14,20 @@ const LodgingType = new GraphQLObjectType<Lodging, any>({
     address: {type: GraphQLString},
     location: { 
       type: LocationType,
-      async resolve(parent,) {
-        const locationRepository = getConnection().getRepository(Location);
-        // const location = await locationRepository.findOne(parent.locationId);
-        // return location;
-        return locationRepository.findOne(parent.locationId);
+      resolve(parent,) {
+        return parent.location
       }
     },
     category: {
       type: CategoryType, 
-      async resolve(parent,) {
-        const categoryRepository = getConnection().getRepository(Category);
-        // const category = await categoryRepository.findOne(parent.categoryId);
-        // return category;
-        return categoryRepository.findOne(parent.categoryId);
+      resolve(parent,) {
+        return parent.category
       }
     },
     classification: {
       type: ClassificationType, 
       async resolve(parent,) {
-        const classificationRepository = getConnection().getRepository(Classification);
-        // const classification = await classificationRepository.findOne(parent.classificationId);
-        // return classification;
-        return classificationRepository.findOne(parent.classificationId);
+        return parent.classification;
       }
     }
   })

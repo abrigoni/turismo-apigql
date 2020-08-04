@@ -56,7 +56,7 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(GastronomicType),
       resolve(parent, args) {
         const gastronomicsRepository = getConnection().getRepository(Gastronomic);
-        return gastronomicsRepository.find({relations: ["activities", "specialities"]});
+        return gastronomicsRepository.find({relations: ["activities", "specialities", "location"]});
       }
     }, 
     gastronomic: {
@@ -64,7 +64,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         const gastronomicsRepository = getConnection().getRepository(Gastronomic);
-        return gastronomicsRepository.findOne(args.id,{relations: ["activities", "specialities"]})
+        return gastronomicsRepository.findOne(args.id,{relations: ["activities", "specialities", "location"]})
       }
     },
     locations: {
@@ -86,7 +86,7 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(LodgingType), 
       resolve(parent, args) {
         const lodgingRepository = getConnection().getRepository(Lodging);
-        return lodgingRepository.find();
+        return lodgingRepository.find({relations: ["category", "classification", "location"]});
       }
     },
     lodging: {
@@ -94,7 +94,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID }},
       resolve(parent, args) {
         const lodgingRepository = getConnection().getRepository(Lodging)
-        return lodgingRepository.findOne(args.id);
+        return lodgingRepository.findOne(args.id, {relations: ["category", "classification", "location"]});
       }
     },
     specialities: {
