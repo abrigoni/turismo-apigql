@@ -12,6 +12,7 @@ const LodgingType = new GraphQLObjectType<Lodging, any>({
     lat: { type: GraphQLFloat },
     lng: { type: GraphQLFloat },
     address: {type: GraphQLString},
+    picture: { type: GraphQLString },
     location: { 
       type: LocationType,
       resolve(parent,) {

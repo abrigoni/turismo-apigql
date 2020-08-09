@@ -20,6 +20,9 @@ export class Gastronomic {
 
   @Column()
   lng!: number;
+  
+  @Column({ name: "foto" })
+  picture!: string;
 
   @ManyToOne(type => Location, location => location.id)
   @JoinColumn({ name: "localidad_id" })

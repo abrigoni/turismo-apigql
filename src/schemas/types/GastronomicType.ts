@@ -13,6 +13,7 @@ const GastronomicType = new GraphQLObjectType<Gastronomic, any>({
     address: { type: GraphQLString },
     lat: { type: GraphQLFloat },
     lng: { type: GraphQLFloat },
+    picture: { type: GraphQLString },
     location: { 
       type: LocationType,
       resolve(parent,) {
